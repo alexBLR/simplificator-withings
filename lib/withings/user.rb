@@ -1,20 +1,20 @@
-class Withings::User
-  attr_reader :short_name, :user_id, :birthdate, :fat_method, :first_name, :last_name, :gender, :oauth_token, :oauth_token_secret
+class Withings::Client
+  attr_reader :short_name, :client_id, :birthdate, :fat_method, :first_name, :last_name, :gender, :oauth_token, :oauth_token_secret
 
-  def self.authenticate(user_id, oauth_token, oauth_token_secret)
-    response = Withings::Connection.get_request('/user', oauth_token, oauth_token_secret, :action => :getbyuserid, :userid => user_id)
-    user_data = response['users'].detect { |item| item['id'] == user_id.to_i }
-    raise Withings::ApiError.new(2555, 'No user found', '') unless user_data
-    Withings::User.new(user_data.merge({:oauth_token => oauth_token, :oauth_token_secret => oauth_token_secret}))
+  def self.authenticate(client_id, oauth_token, oauth_token_secret)
+    response = Withings::Connection.get_request('/user', oauth_token, oauth_token_secret, :action => :getbyclientid, :userid => client_id)
+    client_data = response['clients'].detect { |item| item['id'] == client_id.to_i }
+    raise Withings::ApiError.new(2555, 'No client found', '') unless client_data
+    Withings::Client.new(user_data.merge({:oauth_token => oauth_token, :oauth_token_secret => oauth_token_secret}))
   end
 
-  # If you create a user yourself, then the only attributes of interest (required for calls to the API) are 'user_id' and 'oauth_token' and 'oauth_token_secret'
+  # If you create a client yourself, then the only attributes of interest (required for calls to the API) are 'client_id' and 'oauth_token' and 'oauth_token_secret'
   def initialize(params)
     params = params.stringify_keys
     @short_name = params['shortname']
     @first_name = params['firstname']
     @last_name = params['lastname']
-    @user_id = params['id']                         || params['user_id']
+    @client_id = params['id']                         || params['client_id']
     @birthdate = Time.at(params['birthdate']) if params['birthdate']
     @gender = params['gender'] == 0 ? :male : params['gender'] == 1 ? :female : nil
     @fat_method = params['fatmethod']
@@ -93,7 +93,7 @@ class Withings::User
   end
 
   def to_s
-    "[User #{short_name} / #{:user_id}]"
+    "[client #{short_name} / #{:client_id}]"
   end
 
 

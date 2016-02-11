@@ -10,8 +10,8 @@ class Withings::Connection
   base_uri 'wbsapi.withings.net'
   format :json
 
-  def initialize(user)
-    @user = user
+  def initialize(client)
+    @client = client
   end
 
   def self.get_request(path, token, secret, params)
@@ -23,8 +23,8 @@ class Withings::Connection
   end
 
   def get_request(path, params)
-    params.merge!({:userid => @user.user_id})
-    self.class.get_request(path, @user.oauth_token, @user.oauth_token_secret, params)
+    params.merge!({:clientid => @client.client_id})
+    self.class.get_request(path, @client.oauth_token, @client.oauth_token_secret, params)
   end
 
   protected
