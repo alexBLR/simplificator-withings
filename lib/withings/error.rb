@@ -7,7 +7,7 @@ class Withings::ApiError < StandardError
     250	  => lambda() {|status, path, params| "The clientid '#{params[:clientid]}' and publickey '#{params[:publickey]}' do not match, or the client does not share its data"},
     264	  => lambda() {|status, path, params| "The email address '#{params[:email]}' is either unknown or invalid"},
     284   => lambda() {|status, path, params| "Temporary Server Error" },
-    286   => lambda() {|status, path, params| "No subscription for '#{params[:callbackurl]}' was found" },
+    286   => lambda() {|status, path, params| "No subscriptsion for '#{params[:callbackurl]}' was found" },
     293	  => lambda() {|status, path, params| "The callback URL '#{params[:callbackurl]}' is either unknown or invalid"},
     294	  => lambda() {|status, path, params| "Could not delete subscription for '#{params[:callbackurl]}'"},
     304	  => lambda() {|status, path, params| "The comment '#{params[:comment]}' is invalid"},
